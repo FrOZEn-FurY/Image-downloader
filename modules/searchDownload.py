@@ -1,25 +1,38 @@
-import requests
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+import os
+import time
 
 async def searchDownload(query, maximum):
-    url = 'https://www.google.com/search' # The root url.
-    params = {
-        'q': query,
-        'tbm': 'isch'
-        # Using query given and also the tbm param which searchs the images.
-    }
+    options = Options()
+    options.add_argument("--headless")
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option('useAutomationExtension', False)
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver.maximize_window()
 
-    headers = {
-        'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-        # It is just mimicing a real browser.
-    }
+    driver.get(f"https://www.google.com/search?hl=en&tbm=isch&q={query}")
 
-    try:
-        response = await requests.get(url, params=params, headers=headers)
-        if response.status_code == 200: # Checking the status of the request
-            return response.text
-        else:
-            print(f"Error in fetching the data with status code '{response.status_code}'")
-            return None
-    except requests.RequestException as e: # If any other errors happened beside the status codes
-        print(f"Error occured '{e}'")
-        return None
+    time.sleep(3)
+
+    if not os.path.exists("Images"):
+        os.mkdir("Images")
+
+    cntr = 0
+
+    images = driver.find_elements(By.TAG_NAME, "img")
+    for image in images[50:]:
+        if cntr == maximum:
+            break
+        try:
+            image.screenshot(f"Images/{cntr}.png")
+            cntr += 1
+            print(f"Downloaded {cntr} images.")
+        except:
+            print("Could not resolve the image.")
+
+    driver.quit()
