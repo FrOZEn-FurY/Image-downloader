@@ -1,5 +1,6 @@
 from modules.searchDownload import searchDownload
 from modules.resizeImages import resizeImages
+from modules.storeImages import storeImages
 import asyncio
 import time
 
@@ -13,3 +14,5 @@ if __name__ == '__main__':
     asyncio.run(searchDownload(query, maximum))
     time.sleep(1)
     asyncio.run(resizeImages("Images", (150, 150)))
+    time.sleep(1)
+    asyncio.run(storeImages("Images"))
