@@ -8,28 +8,28 @@ import time
 
 async def searchDownload(query, maximum):
     options = Options()
-    options.add_argument("--headless")
+    options.add_argument("--headless") # A headless browser does not open up a browser window
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-    driver.maximize_window()
+    options.add_argument("--disable-blink-features=AutomationControlled") # These two lines prevent the browser from crashing
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options) # Install the latest version of ChromeDriverManager
+    driver.maximize_window() # Maximize the browser window (not required)
 
-    driver.get(f"https://www.google.com/search?hl=en&tbm=isch&q={query}")
+    driver.get(f"https://www.google.com/search?hl=en&tbm=isch&q={query}") # Search for the query
 
-    time.sleep(3)
+    time.sleep(3) # Wait so the pictures get loaded
 
-    if not os.path.exists("Images"):
+    if not os.path.exists("Images"): # Making the directory if not exists
         os.mkdir("Images")
 
     cntr = 0
 
-    images = driver.find_elements(By.TAG_NAME, "img")
+    images = driver.find_elements(By.TAG_NAME, "img") # Finding all the images
     for image in images[50:]:
         if cntr == maximum:
             break
         try:
-            image.screenshot(f"Images/{cntr}.png")
+            image.screenshot(f"Images/{cntr}.png") # Taking an screenshot from them and store them in a file.
             cntr += 1
             print(f"Downloaded {cntr} images.")
         except:

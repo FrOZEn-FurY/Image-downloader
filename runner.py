@@ -11,8 +11,8 @@ if __name__ == '__main__':
 
     print("Please wait...")
 
-    asyncio.run(searchDownload(query, maximum))
+    asyncio.run(searchDownload(query, maximum)) # Runs in the asyncronous mode
     time.sleep(1)
-    asyncio.run(resizeImages("Images", (150, 150)))
+    asyncio.run(resizeImages("Images", (150, 150))) # Runs in the asyncronous mode
     time.sleep(1)
-    asyncio.run(storeImages("Images"))
+    asyncio.run(storeImages("Images")) # Runs in the asyncronous mode
