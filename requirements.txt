@@ -1,0 +1,5 @@
+asyncio==3.4.3
+Pillow==8.2.0
+psycopg2-binary>=2.8.6
+selenium==3.141.0
+webdriver_manager>=3.0.0
