@@ -1,3 +1,4 @@
+# from simple_image_download import simple_image_download as simp
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -36,3 +37,19 @@ async def searchDownload(query, maximum):
             print("Could not resolve the image.")
 
     driver.quit()
+
+
+# The simple_image_download method is deprecated.
+# async def searchDownload(query, maximum):
+#     try:
+#         downloader = simp.simple_image_download()
+#         downloader.download(query, limit=maximum)
+#         if not os.path.exists("Images"): # Making the directory if not exists
+#             os.mkdir("Images")
+#         for file in os.listdir(f'simple_images/{query}'):
+#             os.rename(os.path.join(query, file), os.path.join("Images", file))
+#         os.rmdir(query)
+#         print("Images downloaded successfully!")
+#     except Exception as e:
+#         print(f"Error: {e}")
+
